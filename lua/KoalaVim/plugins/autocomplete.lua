@@ -40,6 +40,7 @@ table.insert(M, {
 		'windwp/nvim-autopairs',
 		'octaltree/cmp-look', -- TODO: maybe replace with https://github.com/uga-rosa/cmp-dictionary to support non linux users
 		'hrsh7th/cmp-calc',
+		'zbirenbaum/copilot-cmp',
 	},
 	config = function(_, opts)
 		-- onsails/lspkind-nvim
@@ -75,6 +76,7 @@ table.insert(M, {
 				'Event',
 				'Operator',
 				'TypeParameter',
+				'Copilot',
 				'Text',
 			},
 		})
@@ -152,6 +154,7 @@ table.insert(M, {
 					end,
 				},
 				{ name = 'path', option = { trailing_slash = true }, priority = 500 },
+				{ name = 'copilot', priority = 300 },
 				{ name = 'snippy', priority = 200 },
 				-- { name = 'buffer', priority = 100, max_item_count = 5 },
 				all_visible_buffers_source(150, 10),
@@ -170,6 +173,7 @@ table.insert(M, {
 			-- },
 			sorting = {
 				comparators = {
+					require('copilot_cmp.comparators').prioritize,
 					lspkind_priority.compare, -- compare.kind,
 					compare.offset,
 					compare.exact,
@@ -293,6 +297,14 @@ table.insert(M, {
 				all_visible_buffers_source(nil, 15),
 			},
 		})
+	end,
+})
+
+-- Github Copilot cmp source
+table.insert(M, {
+	'zbirenbaum/copilot-cmp',
+	config = function()
+		require('copilot_cmp').setup()
 	end,
 })
 
